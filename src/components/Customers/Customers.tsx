@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 
-import { useEffect, useState } from "react"
+import { useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux";
 
 import { getCustomers } from "@/app/features/customers/customersSlice";
@@ -16,7 +16,9 @@ import { AppDispatch, RootState } from '@/app/store';
 import { getTransactions } from "@/app/features/transactions/transactionsSlice";
 
 import { SkeletonTable } from "@/shared/SkeletonTable";
-import { CustomersData, TransactionsData } from "@/types";
+
+import useSearchFilter from "@/hooks/useSearchFilter";
+import useTableRowSelection from "@/hooks/useTableRowSelection";
 
 
 
@@ -29,46 +31,19 @@ export const Customers = () => {
     useEffect(()=> {
         dispatch(getCustomers());
         dispatch(getTransactions());
-
     },[dispatch])
 
-    const [searchByName, setSearchByName] = useState<string>('');
-    const [searchByAmount, setSearchByAmount] = useState<string>('');
-
-    const [minAmount, setMinAmount] = useState<number | undefined>(undefined);
-    const [maxAmount, setMaxAmount] = useState<number | undefined>(undefined);
-
-    useEffect(() => {
-        const [min, max] = searchByAmount.split('-').map(Number);
-        setMinAmount(min);
-        setMaxAmount(max);
-    }, [searchByAmount]);
-
-    const filteredCustomers = customersList.filter((customer: CustomersData) => {
-        return customer.name.toLowerCase().includes(searchByName.toLowerCase());
-    });
-
-    const min = minAmount? minAmount : -Infinity;
-    const max = maxAmount?  maxAmount : Infinity;
-
-
-    const filteredTransactions = transactions.filter((transaction: TransactionsData) => {
-        return transaction.amount >= min && transaction.amount <= max;
-    });
-
-    const [selectedRowId, setSelectedRowId] = useState<string | undefined>(undefined);
-    
-useEffect(() => {
-    const handleDocumentClick = (event: MouseEvent) => {
-        if (!(event.target instanceof Element) || !event.target.closest('tr')) {
-        setSelectedRowId(undefined);
+    const {
+        searchByName,
+        setSearchByName,
+        searchByAmount,
+        setSearchByAmount,
+        filteredCustomers,
+        filteredTransactions
     }
-    };
-    document.addEventListener('click', handleDocumentClick);
-    return () => {
-    document.removeEventListener('click', handleDocumentClick);
-    };
-}, []);
+    = useSearchFilter({ customersList, transactions })
+
+    const { selectedRowId, setSelectedRowId }= useTableRowSelection();
 
     if (isLoading) {
         return (
@@ -100,8 +75,6 @@ useEffect(() => {
         {filteredCustomers.length === 0 && (
             <p className="text-center mt-20">No customers found with name "{searchByName}"</p>
         )}
-
-
 
         {filteredCustomers.length > 0 && (
             <Table>

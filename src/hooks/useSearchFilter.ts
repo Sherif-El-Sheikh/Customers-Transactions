@@ -1,19 +1,10 @@
     import { useState, useEffect } from 'react';
-    import { CustomersData, TransactionsData } from "@/types";
-    
-    interface UseSearchFilterProps {
-    customersList: CustomersData[];
-    transactions: TransactionsData[];
-    }
-
-    interface UseSearchFilterReturn {
-    searchByName: string;
-    setSearchByName: (value: string) => void;
-    searchByAmount: string;
-    setSearchByAmount: (value: string) => void;
-    filteredCustomers: CustomersData[];
-    filteredTransactions: TransactionsData[];
-    }
+    import {
+        UseSearchFilterProps,
+        UseSearchFilterReturn,
+        TransactionsData,
+        CustomersData
+    } from "@/types";
 
     const useSearchFilter = ({ customersList, transactions }: UseSearchFilterProps): UseSearchFilterReturn => {
     const [searchByName, setSearchByName] = useState<string>('');
@@ -28,15 +19,16 @@
         setMaxAmount(max);
     }, [searchByAmount]);
 
-    const filteredCustomers = customersList.filter((customer: CustomersData) => {
-        return customer.name.toLowerCase().includes(searchByName.toLowerCase());
-    });
-
     const min = minAmount ? minAmount : -Infinity;
     const max = maxAmount ? maxAmount : Infinity;
 
     const filteredTransactions = transactions.filter((transaction: TransactionsData) => {
-        return transaction.amount >= min && transaction.amount <= max;
+        return transaction.amount >= min && transaction.amount <= max 
+    });
+
+    const filteredCustomers = customersList.filter((customer: CustomersData) => {
+        return customer.name.toLowerCase().includes(searchByName.toLowerCase()) &&
+        filteredTransactions.some((transaction: TransactionsData) => parseInt(customer.id) === transaction.customer_id)
     });
 
     return {
@@ -45,7 +37,7 @@
         searchByAmount,
         setSearchByAmount,
         filteredCustomers,
-        filteredTransactions,
+        filteredTransactions
     };
     };
 

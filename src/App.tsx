@@ -1,5 +1,6 @@
 import './App.css'
 import { Customers } from '@/components/Customers/Customers'
+import { CustomersChart } from '@/components/FlowChart/CustomersChart'
 
 function App() {
   
@@ -7,6 +8,7 @@ function App() {
   return (
     <>
     <Customers/>
+    {/* <CustomersChart/> */}
     </>
   )
 }

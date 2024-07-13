@@ -30,6 +30,7 @@
         return customer.name.toLowerCase().includes(searchByName.toLowerCase()) &&
         filteredTransactions.some((transaction: TransactionsData) => parseInt(customer.id) === transaction.customer_id)
     });
+    
 
     return {
         searchByName,
@@ -37,7 +38,7 @@
         searchByAmount,
         setSearchByAmount,
         filteredCustomers,
-        filteredTransactions
+        filteredTransactions,
     };
     };
 

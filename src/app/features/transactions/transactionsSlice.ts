@@ -15,7 +15,7 @@ const initialState: TransactionState = {
 
 export const getTransactions = createAsyncThunk('transactions/getTransactions', async ()=> {
     try{
-        const res = await axios.get('http://localhost:5000/transactions');
+        const res = await axios.get('https://my-json-server.typicode.com/Sherif-El-Sheikh/customer-transaction-backend/transactions');
         return res.data;
     }
     catch (error){

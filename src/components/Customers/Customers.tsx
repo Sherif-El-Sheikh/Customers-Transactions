@@ -88,10 +88,15 @@ export const Customers = () => {
                 onChange={(e) => setSearchByName(e.target.value)}
             />
             <Input
-                type="number"
+                type="text"
                 placeholder="Search by amount (e.g. 500-2500)"
                 value={searchByAmount}
-                onChange={(e) => setSearchByAmount(e.target.value)}
+                onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const onlyNumbers = inputValue.replace(/[^0-9-]/g, '');
+                    setSearchByAmount(onlyNumbers);
+                }}
+                
             />
         </div>
 
@@ -99,9 +104,11 @@ export const Customers = () => {
             <p className="text-center mt-20">No customers found with name "{searchByName}"</p>
         )}
 
-        {filteredCustomers.length === 0 && !searchByName &&  (
-            <p className="text-center mt-20">No customers found with name "{searchByAmount}"</p>
-        )}
+            {filteredCustomers.length === 0 && !searchByName && searchByAmount &&(
+            <p className="text-center mt-20">
+                No customers have transactions greater than {searchByAmount}
+            </p>
+            )}
 
         {filteredCustomers.length > 0 &&(
             <Table>

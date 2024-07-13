@@ -1,5 +1,5 @@
 ## Project Live Demo
-<a href="https://sherif-el-sheikh.github.io/Customers-Transactions" target="_blank" rel="noreferrer">Live Demo</a>
+<a href="https://sherif-el-sheikh.github.io/Customers-Transactions/" target="_blank" rel="noreferrer">Live Demo</a>
 ## Project Overview
 This project is a React and Redux application that displays customer and transaction data in a table and allows users to view a chart of a selected customer's transactions. It has a well-organized folder structure with subfolders for components, hooks, and types.
 

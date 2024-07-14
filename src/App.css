@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bad+Script&display=swap');
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -15,6 +16,6 @@ input:-webkit-autofill:active {
 
 @media only screen and (max-width: 640px) {
   #root {
-    font-family: "Lora", serif;
+    font-family: "Bad Script", cursive;
   }
 }
